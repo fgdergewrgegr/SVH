@@ -1,0 +1,6 @@
+if HS:JSONDecode(readfile("VHS/LineColor.txt")) then
+	for i,v in HS:JSONDecode(readfile("VHS/LineColor.txt")) do
+		ccolors[i] = UnpackColor(v)
+	end
+	set_line_color()
+end
