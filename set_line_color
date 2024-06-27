@@ -1,6 +1,4 @@
-if readfile("VHS/LineColor.txt") then
-	for i,v in HS:JSONDecode(readfile("VHS/LineColor.txt")) do
-		ccolors[i] = UnpackColor(v)
-	end
-	set_line_color()
-end
+local a = {}
+local b = game:GetService("HttpService")
+if readfile("VHS/LineColor.txt") then for i,v in b:JSONDecode(readfile("VHS/LineColor.txt")) do a[i] = Color3.fromRGB(v.R, v.G, v.B) end end
+return a
