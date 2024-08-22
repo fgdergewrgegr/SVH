@@ -100,7 +100,7 @@ local RayfieldLibrary = {
 			PlaceholderColor = Color3.fromRGB(178, 178, 178)
 		},
 		Default2 = {
-			TextFont = "Default", -- Default will use the various font faces used across Rayfield
+			TextFont = "Gotham", -- Default will use the various font faces used across Rayfield
 			TextColor = Color3.fromRGB(240, 240, 240),
 
 			Background = Color3.fromRGB(25, 25, 25),
@@ -2679,4 +2679,5 @@ function RayfieldLibrary:LoadConfiguration()
 end
 
 task.delay(1, RayfieldLibrary.LoadConfiguration, RayfieldLibrary)
+
 return RayfieldLibrary
