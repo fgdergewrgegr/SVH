@@ -138,6 +138,30 @@ local RayfieldLibrary = {
 			InputStroke = Color3.fromRGB(65, 65, 65),
 			PlaceholderColor = Color3.fromRGB(178, 178, 178)
 		},
+		ftapc = {
+			Coins = Color3.fromRGB(0, 0, 0),
+			TabBar = Color3.fromRGB(0, 0, 0),
+			Settings = Color3.fromRGB(66, 66, 66),
+			Shop = Color3.fromRGB(0, 0, 0),
+			ToyDestroy = Color3.fromRGB(0, 0, 0),
+			ToysShop = Color3.fromRGB(0, 0, 0),
+			Toys = Color3.fromRGB(0, 0, 0),
+			SettingsContents = Color3.fromRGB(90, 90, 90),
+			SettingsTitle = Color3.fromRGB(66, 66, 66),
+			ShopTitle = Color3.fromRGB(66, 66, 66),
+			ShopContents = Color3.fromRGB(90, 90, 90),
+			ToysContents = Color3.fromRGB(90, 90, 90),
+			FavoritesFrame = Color3.fromRGB(120, 120, 120),
+			Favorites = Color3.fromRGB(66, 66, 66),
+			MeterFrame = Color3.fromRGB(120, 120, 120),
+			SortingTabs = Color3.fromRGB(120, 120, 120),
+			ToysTitle = Color3.fromRGB(66, 66, 66),
+			DestroyTitle = Color3.fromRGB(66, 66, 66),
+			DestroyContents = Color3.fromRGB(90, 90, 90),
+			DestroyMeterFrame = Color3.fromRGB(120, 120, 120),
+			ToyShopTitle = Color3.fromRGB(66, 66, 66),
+			ToyShopSortingTabs = Color3.fromRGB(120, 120, 120),
+			ToyShopContents = Color3.fromRGB(90, 90, 90)},
 	}
 }
 
@@ -307,6 +331,19 @@ local function LoadConfiguration(Configuration)
 					end    
 				end)
 			end
+		end
+	end
+	for FlagName, FlagValue in next, Data do
+		if RayfieldLibrary.Flags[FlagName] then
+			spawn(function() 
+				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+					if FlagName:find("/ftapc") then
+						local l,_ = FlagName:gsub("/ftapc","",1)
+						RayfieldLibrary.Theme.ftapc[l] = UnpackColor(FlagValue)
+					end
+				end    
+			end)
 		end
 	end
 	for FlagName, FlagValue in next, Data do
@@ -995,7 +1032,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		if not isfile(RayfieldFolder.."/Discord Invites".."/"..Settings.Discord.Invite..ConfigurationExtension) then
 			if request then
 				request({
-					Url = 'http://127.0.0.1:6463/rpc?v=1',
+					Url = 'http://127.0.0.1:6463/rpc?v=1',	
 					Method = 'POST',
 					Headers = {
 						['Content-Type'] = 'application/json',
