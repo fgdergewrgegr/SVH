@@ -2269,7 +2269,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 				if CheckingForKey then
 					if input.KeyCode ~= Enum.KeyCode.Unknown then
-						if input.KeyCode ~= Enum.KeyCode.K then
+						if input.KeyCode == Enum.KeyCode.K then
 							Keybind.KeybindFrame.KeybindBox.Text = ""
 							KeybindSettings.CurrentKeybind = nil
 						else
