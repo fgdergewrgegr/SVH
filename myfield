@@ -2271,7 +2271,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 					if input.KeyCode ~= Enum.KeyCode.Unknown then
 						if input.KeyCode == Enum.KeyCode.K then
 							Keybind.KeybindFrame.KeybindBox.Text = ""
-							KeybindSettings.CurrentKeybind = nil
+							KeybindSettings.CurrentKeybind = ""
 						else
 							local SplitMessage = string.split(tostring(input.KeyCode), ".")
 							local NewKeyNoEnum = SplitMessage[3]
