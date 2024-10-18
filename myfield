@@ -162,6 +162,9 @@ local RayfieldLibrary = {
 			ToyShopTitle = Color3.fromRGB(66, 66, 66),
 			ToyShopSortingTabs = Color3.fromRGB(120, 120, 120),
 			ToyShopContents = Color3.fromRGB(90, 90, 90)},
+
+		FillColor = Color3.fromRGB(255, 255, 255),
+		OutlineColor = Color3.fromRGB(255, 255, 255),
 	}
 }
 
@@ -341,6 +344,19 @@ local function LoadConfiguration(Configuration)
 					if FlagName:find("/ftapc") then
 						local l,_ = FlagName:gsub("/ftapc","",1)
 						RayfieldLibrary.Theme.ftapc[l] = UnpackColor(FlagValue)
+					end
+				end    
+			end)
+		end
+	end
+	for FlagName, FlagValue in next, Data do
+		if RayfieldLibrary.Flags[FlagName] then
+			spawn(function() 
+				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+					if FlagName:find("/chams") then
+						local l,_ = FlagName:gsub("/chams","",1)
+						RayfieldLibrary.Theme[l] = UnpackColor(FlagValue)
 					end
 				end    
 			end)
