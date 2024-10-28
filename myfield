@@ -165,6 +165,15 @@ local RayfieldLibrary = {
 
 		FillColor = Color3.fromRGB(255, 255, 255),
 		OutlineColor = Color3.fromRGB(255, 255, 255),
+
+		LeftHandListColor = Color3.fromRGB(0, 0, 0),
+		LeftHandListSurfaceColor = Color3.fromRGB(255, 255, 0),
+		RightHandListColor = Color3.fromRGB(0, 0, 0),
+		RightHandListSurfaceColor = Color3.fromRGB(255, 170, 0),
+		KillListColor = Color3.fromRGB(0, 0, 0),
+		KillListSurfaceColor = Color3.fromRGB(255, 0, 0),
+		WhiteListColor = Color3.fromRGB(0, 0, 0),
+		WhiteListSurfaceColor = Color3.fromRGB(255, 255, 255)
 	}
 }
 
