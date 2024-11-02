@@ -618,7 +618,7 @@ end)()
 
 function RayfieldLibrary:Notify(NotificationSettings)
 	spawn(function()
-		for a,b in pairs(NotificationSettings) do print(a,b) end
+		-- for a,b in pairs(NotificationSettings) do print(a,b) end
 		local ActionCompleted = true
 		local Notification = Notifications.Template:Clone()
 		Notification.Parent = Notifications
@@ -636,7 +636,7 @@ function RayfieldLibrary:Notify(NotificationSettings)
 			game:GetService("Debris"):AddItem(script,0)
 		end
 
-		Notification.Actions.Template.Visible = false
+		-- Notification.Actions.Template.Visible = false
 
 		if NotificationSettings.Actions then
 			for _, Action in pairs(NotificationSettings.Actions) do
