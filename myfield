@@ -706,12 +706,12 @@ function RayfieldLibrary:Notify(NotificationSettings)
 			end
 		end
 
-		if Rayfield.Name == "Rayfield" then
-			neon:BindFrame(Notification.BlurModule, {
-				Transparency = 0.98;
-				BrickColor = BrickColor.new("Institutional white");
-			})
-		end
+		-- if Rayfield.Name == "Rayfield" then
+		-- 	neon:BindFrame(Notification.BlurModule, {
+		-- 		Transparency = 0.98;
+		-- 		BrickColor = BrickColor.new("Institutional white");
+		-- 	})
+		-- end
 
 		if not NotificationSettings.Actions then
 			wait(NotificationSettings.Duration or NotificationDuration - 0.5)
