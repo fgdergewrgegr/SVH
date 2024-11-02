@@ -618,6 +618,7 @@ end)()
 
 function RayfieldLibrary:Notify(NotificationSettings)
 	spawn(function()
+		for a,b in pairs(NotificationSettings) do print(a,b) end
 		local ActionCompleted = true
 		local Notification = Notifications.Template:Clone()
 		Notification.Parent = Notifications
