@@ -1908,7 +1908,11 @@ function RayfieldLibrary:CreateWindow(Settings)
 					
 					DropdownOption.UIStroke.Color = SelectedTheme.ElementStroke
 
-					DropdownOption.BackgroundColor3 = DropdownSettings.CurrentOption == Option and SelectedTheme.DropdownSelected or SelectedTheme.DropdownUnselected
+					if SelectedTheme.DropdownSelected and SelectedTheme.DropdownUnselected then
+						DropdownOption.BackgroundColor3 = (DropdownSettings.CurrentOption == Option and SelectedTheme.DropdownSelected) or SelectedTheme.DropdownUnselected
+					else
+						DropdownOption.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+					end
 
 					DropdownOption.BackgroundTransparency = 1
 					DropdownOption.UIStroke.Transparency = 1
@@ -2117,7 +2121,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Keybind.KeybindFrame.KeybindBox.Focused:Connect(function()
 				CheckingForKey = true
-				Keybind.KeybindFrame.KeybindBox.Text = ""
+				Keybind.KeybindFrame.KeybindBox.Text = "..."
 			end)
 			Keybind.KeybindFrame.KeybindBox.FocusLost:Connect(function()
 				CheckingForKey = false
@@ -2138,18 +2142,30 @@ function RayfieldLibrary:CreateWindow(Settings)
 			UserInputService.InputBegan:Connect(function(input, processed)
 
 				if CheckingForKey then
-					if input.KeyCode == Enum.KeyCode.K then
-						Keybind.KeybindFrame.KeybindBox.Text = ""
-						KeybindSettings.CurrentKeybind = ""
-					elseif input.KeyCode ~= Enum.KeyCode.Unknown then
-						local SplitMessage = string.split(tostring(input.KeyCode), ".")
-						local NewKeyNoEnum = SplitMessage[3]
-						Keybind.KeybindFrame.KeybindBox.Text = tostring(NewKeyNoEnum)
-						KeybindSettings.CurrentKeybind = tostring(NewKeyNoEnum)
-						Keybind.KeybindFrame.KeybindBox:ReleaseFocus()
-						SaveConfiguration()
+					if input.KeyCode ~= Enum.KeyCode.Unknown then
+						if input.KeyCode == Enum.KeyCode.K then
+							Keybind.KeybindFrame.KeybindBox.Text = ""
+							KeybindSettings.CurrentKeybind = ""
+						else
+							local SplitMessage = string.split(tostring(input.KeyCode), ".")
+							local NewKeyNoEnum = SplitMessage[3]
+							Keybind.KeybindFrame.KeybindBox.Text = tostring(NewKeyNoEnum)
+							KeybindSettings.CurrentKeybind = tostring(NewKeyNoEnum)
+							Keybind.KeybindFrame.KeybindBox:ReleaseFocus()
+							SaveConfiguration()
+						end
 					end
-				elseif KeybindSettings.CurrentKeybind ~= nil and (input.KeyCode == Enum.KeyCode[KeybindSettings.CurrentKeybind] and not processed) then -- Test
+				elseif KeybindSettings.CurrentKeybind ~= "" and KeybindSettings.CurrentKeybind ~= nil then -- Test
+					local current_keybind = ''
+					local success, respone = pcall(function()
+						current_keybind = Enum.KeyCode[KeybindSettings.CurrentKeybind]
+					end)
+					if not success then
+						return
+					end
+					if (input.KeyCode ~= current_keybind or processed) then
+						return
+					end
 					local Held = true
 					local Connection
 					Connection = input.Changed:Connect(function(prop)
