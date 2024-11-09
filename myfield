@@ -186,10 +186,79 @@ local RayfieldLibrary = {
 			InputBackground = Color3.fromRGB(25, 30, 35),
 			InputStroke = Color3.fromRGB(45, 50, 55), -- Deepened input stroke
 			PlaceholderColor = Color3.fromRGB(150, 150, 160)
-		}
+		},
 
+		Default2 = {
+			TextFont = "Gotham", -- Default will use the various font faces used across Rayfield
+			TextColor = Color3.fromRGB(240, 240, 240),
+			Background = Color3.fromRGB(25, 25, 25),
+			Topbar = Color3.fromRGB(34, 34, 34),
+			Shadow = Color3.fromRGB(20, 20, 20),
+			NotificationBackground = Color3.fromRGB(20, 20, 20),
+			NotificationActionsBackground = Color3.fromRGB(230, 230, 230),
+			TabBackground = Color3.fromRGB(80, 80, 80),
+			TabStroke = Color3.fromRGB(85, 85, 85),
+			TabBackgroundSelected = Color3.fromRGB(210, 210, 210),
+			TabTextColor = Color3.fromRGB(240, 240, 240),
+			SelectedTabTextColor = Color3.fromRGB(50, 50, 50),
 
+			ElementBackground = Color3.fromRGB(35, 35, 35),
+			ElementBackgroundHover = Color3.fromRGB(40, 40, 40),
+			SecondaryElementBackground = Color3.fromRGB(25, 25, 25), -- For labels and paragraphs
+			ElementStroke = Color3.fromRGB(50, 50, 50),
+			SecondaryElementStroke = Color3.fromRGB(40, 40, 40), -- For labels and paragraphs
 
+			SliderBackground = Color3.fromRGB(43, 105, 159),
+			SliderProgress = Color3.fromRGB(43, 105, 159),
+			SliderStroke = Color3.fromRGB(48, 119, 177),
+
+			ToggleBackground = Color3.fromRGB(30, 30, 30),
+			ToggleEnabled = Color3.fromRGB(0, 146, 214),
+			ToggleDisabled = Color3.fromRGB(100, 100, 100),
+			ToggleEnabledStroke = Color3.fromRGB(0, 170, 255),
+			ToggleDisabledStroke = Color3.fromRGB(125, 125, 125),
+			ToggleEnabledOuterStroke = Color3.fromRGB(100, 100, 100),
+			ToggleDisabledOuterStroke = Color3.fromRGB(65, 65, 65),
+
+			InputBackground = Color3.fromRGB(30, 30, 30),
+			InputStroke = Color3.fromRGB(65, 65, 65),
+			PlaceholderColor = Color3.fromRGB(178, 178, 178)
+		},
+
+		ftapc = {
+			Coins = Color3.fromRGB(0, 0, 0),
+			TabBar = Color3.fromRGB(0, 0, 0),
+			Settings = Color3.fromRGB(66, 66, 66),
+			Shop = Color3.fromRGB(0, 0, 0),
+			ToyDestroy = Color3.fromRGB(0, 0, 0),
+			ToysShop = Color3.fromRGB(0, 0, 0),
+			Toys = Color3.fromRGB(0, 0, 0),
+			SettingsContents = Color3.fromRGB(90, 90, 90),
+			SettingsTitle = Color3.fromRGB(66, 66, 66),
+			ShopTitle = Color3.fromRGB(66, 66, 66),
+			ShopContents = Color3.fromRGB(90, 90, 90),
+			ToysContents = Color3.fromRGB(90, 90, 90),
+			FavoritesFrame = Color3.fromRGB(120, 120, 120),
+			Favorites = Color3.fromRGB(66, 66, 66),
+			MeterFrame = Color3.fromRGB(120, 120, 120),
+			SortingTabs = Color3.fromRGB(120, 120, 120),
+			ToysTitle = Color3.fromRGB(66, 66, 66),
+			DestroyTitle = Color3.fromRGB(66, 66, 66),
+			DestroyContents = Color3.fromRGB(90, 90, 90),
+			DestroyMeterFrame = Color3.fromRGB(120, 120, 120),
+			ToyShopTitle = Color3.fromRGB(66, 66, 66),
+			ToyShopSortingTabs = Color3.fromRGB(120, 120, 120),
+			ToyShopContents = Color3.fromRGB(90, 90, 90)},
+		FillColor = Color3.fromRGB(255, 255, 255),
+		OutlineColor = Color3.fromRGB(255, 255, 255),
+		LeftHandListColor = Color3.fromRGB(0, 0, 0),
+		LeftHandListSurfaceColor = Color3.fromRGB(255, 255, 0),
+		RightHandListColor = Color3.fromRGB(0, 0, 0),
+		RightHandListSurfaceColor = Color3.fromRGB(255, 170, 0),
+		KillListColor = Color3.fromRGB(0, 0, 0),
+		KillListSurfaceColor = Color3.fromRGB(255, 0, 0),
+		WhiteListColor = Color3.fromRGB(0, 0, 0),
+		WhiteListSurfaceColor = Color3.fromRGB(255, 255, 255)
 	}
 }
 
@@ -349,6 +418,60 @@ end
 
 local function LoadConfiguration(Configuration)
 	local Data = HttpService:JSONDecode(Configuration)
+	local t = true
+	for FlagName, FlagValue in next, Data do
+		if RayfieldLibrary.Flags[FlagName] then
+			task.spawn(function() 
+				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+					if FlagName:find("/rfc") and UnpackColor(FlagValue) == Color3.fromRGB(0, 0, 0) then
+						t = false
+					end
+				end    
+			end)
+		end
+	end
+	if t then
+		for FlagName, FlagValue in next, Data do
+			if RayfieldLibrary.Flags[FlagName] then
+				task.spawn(function() 
+					if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+						RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+						if FlagName:find("/rfc") then
+							local l,_ = FlagName:gsub("/rfc","",1)
+							RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue)
+						end
+					end    
+				end)
+			end
+		end
+	end
+	for FlagName, FlagValue in next, Data do
+		if RayfieldLibrary.Flags[FlagName] then
+			task.spawn(function() 
+				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+					if FlagName:find("/ftapc") then
+						local l,_ = FlagName:gsub("/ftapc","",1)
+						RayfieldLibrary.Theme.ftapc[l] = UnpackColor(FlagValue)
+					end
+				end    
+			end)
+		end
+	end
+	for FlagName, FlagValue in next, Data do
+		if RayfieldLibrary.Flags[FlagName] then
+			task.spawn(function() 
+				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+					if FlagName:find("/chams") then
+						local l,_ = FlagName:gsub("/chams","",1)
+						RayfieldLibrary.Theme[l] = UnpackColor(FlagValue)
+					end
+				end    
+			end)
+		end
+	end
 	for FlagName, FlagValue in next, Data do
 		if RayfieldLibrary.Flags[FlagName] then
 			task.spawn(function() 
@@ -358,8 +481,6 @@ local function LoadConfiguration(Configuration)
 					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
 				end    
 			end)
-		else
-			RayfieldLibrary:Notify({Title = "Flag Error", Content = "Rayfield was unable to find '"..FlagName.. "'' in the current script. Check docs.sirius.menu for help."})
 		end
 	end
 end
@@ -1996,15 +2117,30 @@ function RayfieldLibrary:CreateWindow(Settings)
 			UserInputService.InputBegan:Connect(function(input, processed)
 
 				if CheckingForKey then
-					if input.KeyCode ~= Enum.KeyCode.Unknown and input.KeyCode ~= Enum.KeyCode.K then
-						local SplitMessage = string.split(tostring(input.KeyCode), ".")
-						local NewKeyNoEnum = SplitMessage[3]
-						Keybind.KeybindFrame.KeybindBox.Text = tostring(NewKeyNoEnum)
-						KeybindSettings.CurrentKeybind = tostring(NewKeyNoEnum)
-						Keybind.KeybindFrame.KeybindBox:ReleaseFocus()
-						SaveConfiguration()
+					if input.KeyCode ~= Enum.KeyCode.Unknown then
+						if input.KeyCode == Enum.KeyCode.K then
+							Keybind.KeybindFrame.KeybindBox.Text = ""
+							KeybindSettings.CurrentKeybind = ""
+						else
+							local SplitMessage = string.split(tostring(input.KeyCode), ".")
+							local NewKeyNoEnum = SplitMessage[3]
+							Keybind.KeybindFrame.KeybindBox.Text = tostring(NewKeyNoEnum)
+							KeybindSettings.CurrentKeybind = tostring(NewKeyNoEnum)
+							Keybind.KeybindFrame.KeybindBox:ReleaseFocus()
+							SaveConfiguration()
+						end
 					end
-				elseif KeybindSettings.CurrentKeybind ~= nil and (input.KeyCode == Enum.KeyCode[KeybindSettings.CurrentKeybind] and not processed) then -- Test
+				elseif KeybindSettings.CurrentKeybind ~= "" and KeybindSettings.CurrentKeybind ~= nil then -- Test
+					local current_keybind = ''
+					local success, respone = pcall(function()
+						current_keybind = Enum.KeyCode[KeybindSettings.CurrentKeybind]
+					end)
+					if not success then
+						return
+					end
+					if (input.KeyCode ~= current_keybind or processed) then
+						return
+					end
 					local Held = true
 					local Connection
 					Connection = input.Changed:Connect(function(prop)
