@@ -2019,9 +2019,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 			for _, droption in ipairs(Dropdown.List:GetChildren()) do
 				if droption.ClassName == "Frame" and droption.Name ~= "Placeholder" then
 					if not table.find(DropdownSettings.CurrentOption, droption.Name) then
-						droption.BackgroundColor3 = SelectedTheme.DropdownUnselected
+						if SelectedTheme.DropdownUnselected then droption.BackgroundColor3 = SelectedTheme.DropdownUnselected else droption.BackgroundColor3 = Color3.fromRGB(0, 0, 0) end	
 					else
-						droption.BackgroundColor3 = SelectedTheme.DropdownSelected
+						if SelectedTheme.DropdownSelected then droption.BackgroundColor3 = SelectedTheme.DropdownSelected else droption.BackgroundColor3 = Color3.fromRGB(0, 0, 0) end
 					end
 				end
 			end
