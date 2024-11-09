@@ -307,9 +307,10 @@ local Debounce = false
 local searchOpen = false
 local Notifications = Rayfield.Notifications
 
-local SelectedTheme = RayfieldLibrary.Theme.Default
+local SelectedTheme = RayfieldLibrary.Theme.Default2
 
 function ChangeTheme(ThemeName)
+	print("ChangeTheme ".."ThemeName")
 	SelectedTheme = RayfieldLibrary.Theme[ThemeName]
 
 	Rayfield.Main.BackgroundColor3 = SelectedTheme.Background
