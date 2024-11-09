@@ -407,32 +407,17 @@ end
 
 local function LoadConfiguration(Configuration)
 	local Data = HttpService:JSONDecode(Configuration)
-	local t = true
 	for FlagName, FlagValue in next, Data do
 		if RayfieldLibrary.Flags[FlagName] then
 			task.spawn(function() 
 				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
 					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
-					if FlagName:find("/rfc") and UnpackColor(FlagValue) == Color3.fromRGB(0, 0, 0) then
-						t = false
+					if FlagName:find("/rfc") then
+						local l,_ = FlagName:gsub("/rfc","",1)
+						if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue) end
 					end
 				end    
 			end)
-		end
-	end
-	if t then
-		for FlagName, FlagValue in next, Data do
-			if RayfieldLibrary.Flags[FlagName] then
-				task.spawn(function() 
-					if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
-						RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
-						if FlagName:find("/rfc") then
-							local l,_ = FlagName:gsub("/rfc","",1)
-							if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue) end
-						end
-					end    
-				end)
-			end
 		end
 	end
 	for FlagName, FlagValue in next, Data do
