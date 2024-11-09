@@ -428,7 +428,7 @@ local function LoadConfiguration(Configuration)
 						RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
 						if FlagName:find("/rfc") then
 							local l,_ = FlagName:gsub("/rfc","",1)
-							RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue)
+							if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue) end
 						end
 					end    
 				end)
@@ -2817,9 +2817,4 @@ if useStudio then
 
 	local Paragraph = Tab:CreateParagraph({Title = "Paragraph Example", Content = "Paragraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph ExampleParagraph Example"})
 end
-
-
-
-task.delay(3.5, RayfieldLibrary.LoadConfiguration, RayfieldLibrary)
-
 return RayfieldLibrary
