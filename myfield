@@ -362,18 +362,21 @@ function RayfieldLibrary:ChangeTheme(ThemeName)
 	end
 end
 
+local function PackColor(Color)
+	return {R = Color.R * 255, G = Color.G * 255, B = Color.B * 255}
+end    
+
+local function UnpackColor(Color)
+	return Color3.fromRGB(Color.R, Color.G, Color.B)
+end
+
 local ergergerg = ""
 if isfile("VHS/vhsv6.rfld") then ergergerg = "VHS/vhsv6.rfld" else ergergerg = "VHS/vhsvf.rfld" end
 local Data = HttpService:JSONDecode(readfile(ergergerg))
 for FlagName, FlagValue in Data do
-	if FlagName and FlagValue and FlagName:find("/rfc") then
+	if FlagName:find("/rfc") then
 		local l,_ = FlagName:gsub("/rfc","",1)
-		if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then
-			UnpackColor(FlagValue)
-			local color = UnpackColor(FlagValue); if color then
-				RayfieldLibrary.Theme.Default2[l] = color
-			end
-		end
+		if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue) end
 	end
 end
 
@@ -408,14 +411,6 @@ local function AddDraggingFunctionality(DragPoint, Main)
 			end
 		end)
 	end)
-end   
-
-local function PackColor(Color)
-	return {R = Color.R * 255, G = Color.G * 255, B = Color.B * 255}
-end    
-
-local function UnpackColor(Color)
-	return Color3.fromRGB(Color.R, Color.G, Color.B)
 end
 
 local function LoadConfiguration(Configuration)
