@@ -365,7 +365,7 @@ end
 local ergergerg = ""
 if isfile("VHS/vhsv6.rfld") then ergergerg = "VHS/vhsv6.rfld" else ergergerg = "VHS/vhsvf.rfld" end
 local Data = HttpService:JSONDecode(readfile(ergergerg))
-for FlagName, FlagValue in Next, Data do
+for FlagName, FlagValue in Data do
 	if FlagName and FlagValue and FlagName:find("/rfc") then
 		local l,_ = FlagName:gsub("/rfc","",1)
 		if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then
