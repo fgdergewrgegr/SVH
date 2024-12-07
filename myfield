@@ -337,7 +337,6 @@ function ChangeTheme(ThemeName)
 end
 
 function RayfieldLibrary:ChangeTheme(ThemeName)
-	print("ChangeTheme ".."ThemeName")
 	SelectedTheme = RayfieldLibrary.Theme[ThemeName]
 
 	Rayfield.Main.BackgroundColor3 = SelectedTheme.Background
@@ -361,7 +360,21 @@ function RayfieldLibrary:ChangeTheme(ThemeName)
 			end
 		end
 	end
-	
+end
+
+local Data = HttpService:JSONDecode(Configuration)
+for FlagName, FlagValue in next, Data do
+	if RayfieldLibrary.Flags[FlagName] then
+		task.spawn(function() 
+			if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+				RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+				if FlagName:find("/rfc") then
+					local l,_ = FlagName:gsub("/rfc","",1)
+					if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue) end
+				end
+			end    
+		end)
+	end
 end
 
 local function AddDraggingFunctionality(DragPoint, Main)
@@ -407,19 +420,6 @@ end
 
 local function LoadConfiguration(Configuration)
 	local Data = HttpService:JSONDecode(Configuration)
-	for FlagName, FlagValue in next, Data do
-		if RayfieldLibrary.Flags[FlagName] then
-			task.spawn(function() 
-				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
-					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
-					if FlagName:find("/rfc") then
-						local l,_ = FlagName:gsub("/rfc","",1)
-						if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue) end
-					end
-				end    
-			end)
-		end
-	end
 	for FlagName, FlagValue in next, Data do
 		if RayfieldLibrary.Flags[FlagName] then
 			task.spawn(function() 
