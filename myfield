@@ -362,7 +362,9 @@ function RayfieldLibrary:ChangeTheme(ThemeName)
 	end
 end
 
-local Data = HttpService:JSONDecode(Configuration)
+local ergergerg = ""
+if isfile("VHS/vhsv6.rfld") then ergergerg = "VHS/vhsv6.rfld" else ergergerg = "VHS/vhsvf.rfld" end
+local Data = HttpService:JSONDecode(readfile(ergergerg))
 for FlagName, FlagValue in next, Data do
 	if RayfieldLibrary.Flags[FlagName] then
 		task.spawn(function() 
