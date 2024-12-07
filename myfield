@@ -365,10 +365,12 @@ end
 local ergergerg = ""
 if isfile("VHS/vhsv6.rfld") then ergergerg = "VHS/vhsv6.rfld" else ergergerg = "VHS/vhsvf.rfld" end
 local Data = HttpService:JSONDecode(readfile(ergergerg))
-for FlagName, FlagValue in next, Data do
-	if FlagName:find("/rfc") then
+for FlagName, FlagValue in Data do
+	if FlagName:find("/rfc") and FlagValue then
 		local l,_ = FlagName:gsub("/rfc","",1)
-		if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue) end
+		if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then
+			RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue)
+		end
 	end
 end
 
