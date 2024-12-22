@@ -8232,6 +8232,7 @@ function StartFreecam(pos)
 	RunService:BindToRenderStep("Freecam", Enum.RenderPriority.Camera.Value, StepFreecam)
 	Input.StartCapture()
 	fcRunning = true
+	_G.fc = true
 end
 
 function StopFreecam()
@@ -8241,6 +8242,7 @@ function StopFreecam()
 	PlayerState.Pop()
 	workspace.Camera.FieldOfView = 70
 	fcRunning = false
+	_G.fc = false
 end
 
 addcmd('freecam',{'fc'},function(args, speaker)
