@@ -373,10 +373,12 @@ end
 local ergergerg = ""
 if isfile("VHS/vhsvf.rfld") then ergergerg = "VHS/vhsvf.rfld"
 elseif isfile("VHS/vhsv6.rfld") then ergergerg = "VHS/vhsv6.rfld" end
+print(ergergerg)
 if ergergerg ~= "" then
 	local Data = HttpService:JSONDecode(readfile(ergergerg))
-	for FlagName, FlagValue in Data do
+	for FlagName, FlagValue in next, Data do
 		if FlagName:find("/rfc") then
+			print(FlagName, FlagValue)
 			local l,_ = FlagName:gsub("/rfc","",1)
 			if table.find(RayfieldLibrary.Theme.Default2, l) ~= 0 then RayfieldLibrary.Theme.Default2[l] = UnpackColor(FlagValue) end
 		end
@@ -909,20 +911,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 	Topbar.Visible = false
 	Elements.Visible = false
 	LoadingFrame.Visible = true
-
-	if not Settings.DisableRayfieldPrompts then
-		task.spawn(function()
-			while true do
-				task.wait(math.random(120, 600))
-				RayfieldLibrary:Notify({
-					Title = "Rayfield Interface",
-					Content = "Enjoying this UI library? You can use it yourself at docs.sirius.menu/rayfield or sirius.menu/discord",
-					Duration = 7,
-					Image = 4483362458,
-				})
-			end
-		end)
-	end
 
 	pcall(function()
 		if not Settings.ConfigurationSaving.FileName then
